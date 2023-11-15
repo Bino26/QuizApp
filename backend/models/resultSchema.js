@@ -17,7 +17,7 @@ const resultSchema = new Schema({
     type: Number,
     default: 0,
   },
-  achieved: {
+  achived: {
     type: String,
     default: "",
   },
