@@ -1,4 +1,4 @@
-export default [
+const questions = [
   {
     id: 1,
     question: "Javascript is an _______ language",
@@ -28,5 +28,6 @@ export default [
     options: ["stringify()", "parse()", "convert()"],
   },
 ];
+const answers = [0, 1, 2, 1, 0];
 
-export const answers = [0, 1, 2, 1, 0];
+module.exports = { questions, answers };

@@ -1,5 +1,6 @@
 const questionModel = require("../models/questionSchema");
 const resultModel = require("../models/resultSchema");
+const { questions, answers } = require("../config/data");
 
 // questions controllers
 
@@ -15,7 +16,7 @@ const getQuestions = async (req, res) => {
 /** insert all questinos */
 const insertQuestions = async (req, res) => {
   try {
-    await questionModel.insertMany({ questions: [0], answers: [0] });
+    await questionModel.insertMany({ questions, answers });
     res.status(200).json({
       message: "Data Saved Sucessfuly",
     });
@@ -36,9 +37,46 @@ const dropQuestions = async (req, res) => {
 
 // result controllers
 
-const getResult = async (req, res) => {};
-const storeResult = async (req, res) => {};
-const dropResult = async (req, res) => {};
+/** get all result */
+
+const getResult = async (req, res) => {
+  try {
+    const result = await resultModel.find();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+};
+/** post all result */
+
+const storeResult = async (req, res) => {
+  try {
+    const { username, result, attempts, points, achived } = req.body;
+    if (!username && !result) throw new Error("Data Not Provided...!");
+    const r = await resultModel.create({
+      username,
+      result,
+      attempts,
+      points,
+      achived,
+    });
+    const resultsave = r.save();
+    res.status(200).json({
+      message: " Result Saved Successfuly",
+    });
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+};
+
+/** delete all result */
+const dropResult = async (req, res) => {
+  try {
+    await resultModel.deleteMany();
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+};
 
 module.exports = {
   getQuestions,
